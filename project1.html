@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bouncy + Smart Runaway Button</title>
+
+<style>
+    body {
+        margin: 0;
+        background: linear-gradient(135deg, #ffffff, #940266);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Poppins, Arial;
+    }
+
+    .box {
+        width: 380px;
+        height: 360px;
+        background: linear-gradient(45deg, rgb(206, 62, 62),rgb(76, 76, 129));
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        overflow: hidden;
+    }
+
+    input {
+        padding: 13px;
+        border-radius: 10px;
+        border: 2px solid #ccc;
+        font-size: 16px;
+        transition: .25s;
+    }
+    input:focus {
+        border-color: #7F00FF;
+        box-shadow: 0 0 8px rgba(127,0,255,0.4);
+    }
+
+    #runBtn {
+        padding: 12px 20px;
+        width: 220px;
+        border: none;
+        color: white;
+        background: #7b7373;
+        border-radius: 12px;
+        cursor: pointer;
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        transition: all 1s ease;
+        font-size: 15px;
+    }
+
+    /* Bouncy animation */
+    .bounce {
+        animation: bounceAnim 0.5s ease-out forwards;
+    }
+    @keyframes bounceAnim {
+        0%   { transform: scale(1); }
+        40%  { transform: scale(1.25); }
+        70%  { transform: scale(0.85); }
+        100% { transform: scale(1); }
+    }
+
+    /* Popup */
+    .popup {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.55);
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+    .popup-box {
+        background: #fff;
+        padding: 25px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 0 25px rgba(0,0,0,0.3);
+    }
+
+</style>
+</head>
+<body>
+
+<div class="box" id="whiteBox">
+    <input type="text" id="user" placeholder="Enter Username">
+    <input type="password" id="pass" placeholder="Enter Password">
+
+    <button id="runBtn">Pehle dono complete karo 😜</button>
+</div>
+
+
+<div class="popup" id="popup">
+    <div class="popup-box">
+        <h2>🎉 Wah! Kamaal!</h2>
+        <p>Finally username & password daal hi diya 😎</p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+</div>
+
+<script>
+    const btn = document.getElementById("runBtn");
+    const user = document.getElementById("user");
+    const pass = document.getElementById("pass");
+    const box = document.getElementById("whiteBox");
+    const popup = document.getElementById("popup");
+
+    let runaway = true;
+
+    const funnyLines = [
+        "Arey ruk jao ! 😂",
+        "Pehle likho bhai!! 😝",
+        "Catch me if you can 😆",
+        "you can't click me! 😜",
+        "Chalo pehle likho 😁"
+    ];
+
+    user.addEventListener("input", checkFields);
+    pass.addEventListener("input", checkFields);
+
+    function checkFields() {
+        if (user.value.trim() !== "" && pass.value.trim() !== "") {
+            runaway = false;
+            btn.style.background = "green";
+            btn.textContent = "Wow! Finally 😎 Click now";
+
+            btn.style.left = "50%";
+            btn.style.bottom = "50%";
+            btn.style.transform = "translate(-50%, 50%) scale(1.15)";
+            btn.style.transition = "all .4s ease";
+
+            btn.classList.add("bounce");
+            setTimeout(() => btn.classList.remove("bounce"), 500);
+
+        } else {
+            runaway = true;
+            btn.style.background = "#777";
+            btn.textContent = "Pehle dono complete karo 😜";
+
+            btn.style.left = "20px";
+            btn.style.bottom = "20px";
+            btn.style.transform = "none";
+        }
+    }
+
+    // Smart + bouncy runaway
+    btn.addEventListener("mousemove", (e) => {
+        if (!runaway) return;
+
+        btn.textContent = funnyLines[Math.floor(Math.random() * funnyLines.length)];
+
+        const boxRect = box.getBoundingClientRect();
+        const btnRect = btn.getBoundingClientRect();
+
+        const maxX = boxRect.width - btnRect.width - 20;
+        const maxY = boxRect.height - btnRect.height - 20;
+
+        const cursorX = e.clientX - boxRect.left;
+        const cursorY = e.clientY - boxRect.top;
+
+        let newX = cursorX < btnRect.left ? Math.random() * maxX : Math.random() * maxX;
+        let newY = cursorY < btnRect.top ? Math.random() * maxY : Math.random() * maxY;
+
+        btn.style.left = newX + "px";
+        btn.style.bottom = newY + "px";
+
+        btn.classList.add("bounce");
+        setTimeout(() => btn.classList.remove("bounce"), 300);
+    });
+
+    btn.addEventListener("click", () => {
+        if (!runaway) {
+            popup.style.display = "flex";
+        }
+    });
+
+    function closePopup() {
+        popup.style.display = "none";
+    }
+</script>
+
+</body>
+</html>
