@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> simple counter</title>
+    <style>
+        h1 {
+             position: absolute;   
+             top: 20px;             
+             left: 50%;       
+             transform: translateX(-50%);
+             text-align: center;
+             font-family:cursive;
+             font-weight: 500;
+             color: white;
+              margin: 0;
+}
+        body{
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient( 135deg, #0d4b6f, #6fdeea);
+        }
+        .container{
+            text-align: center;
+            font-weight: 550;
+            color: white;
+            font-family: Cambria;
+            background :linear-gradient(65deg, rgb(201, 97, 146), rgb(98, 79, 79));
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgb(7, 58, 59);
+        }
+        .counter{
+            font-size: 24px;
+            color: white;
+            margin-bottom: 20px;
+            font-family:'Times New Roman', Times, serif;
+            font-weight: 800;
+        }
+        button{
+            font-size: 14px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #2d2a2a;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover{
+            background-color: #131614;
+        }
+        .clicks{
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1> Simple Counter </h1>
+    
+    <div class="container">
+        <div class="counter">
+            <p class="count">0</p>
+         </div>
+   <div>
+    <button onclick="dec()"> Decrement </button>
+    <button onclick="inc()"> Increment </button>
+ </div>
+ <div class="clicks"> 
+    <p> Clicks on increment: <span id="incCount">0 </span></p>
+    <p> Clicks on decrement: <span id="decCount">0 </span></p>
+ </div>
+ </div>
+
+</body>
+<script>
+    let count = 0;
+    let incClicks = 0;
+    let decClicks = 0;
+
+    function inc(){
+        count++;
+        incClicks++;
+        document.querySelector('.count').innerText = count;
+        document.getElementById('incCount').innerText = incClicks;
+    }
+
+    function dec(){
+        count--;
+        decClicks++;
+        document.querySelector('.count').innerText = count;
+        document.getElementById('decCount').innerText = decClicks;
+    }
+</script>
+</html>
